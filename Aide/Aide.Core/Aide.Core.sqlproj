@@ -56,5 +56,22 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Question.sql" />
+    <Build Include="dbo\QuestionReponse.sql" />
+    <Build Include="dbo\QuestionType.sql" />
+    <Build Include="dbo\QuestionTypeView.sql" />
+    <Build Include="dbo\Quizz.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\QuizzMatiere.sql" />
+    <Build Include="dbo\QuizzMatiereView.sql" />
+    <Build Include="dbo\QuizzQuestionReponsePointView.sql" />
+    <Build Include="dbo\QuizzQuestionTypeView.sql" />
+    <Build Include="dbo\Role.sql" />
+    <Build Include="dbo\Utilisateur.sql" />
+    <Build Include="dbo\UtilisateurRoleView.sql" />
   </ItemGroup>
 </Project>

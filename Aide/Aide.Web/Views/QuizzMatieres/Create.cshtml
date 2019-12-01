@@ -1,0 +1,48 @@
+﻿@model Aide.Api.Models.QuizzMatiere
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Nouvelle matière</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label asp-for="Titre" class="control-label"></label>
+                <input asp-for="Titre" class="form-control" />
+                <span asp-validation-for="Titre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Ajouter" class="btn btn-primary" />
+                <a class="btn btn-outline-secondary" onclick="$('.ui-dialog-titlebar-close').click()"> Annuler </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'post',
+            url: '/QuizzMatieres/AjaxCreate',
+            data: $('form').serialize(),
+            success: function (data) {
+                $(".ui-dialog-titlebar-close").click();
+                console.log(data);
+                MatiereCreated(data);
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,39 @@
+﻿@model Aide.Api.Models.QuizzMatiere
+
+
+<p>Êtes-vous sûr de vouloir supprimer l'enregistrement?</p>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Titre)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Titre)
+        </dd>
+    </dl>
+
+    <form>
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="IdentityKey" />
+        <input type="submit" value="Supprimer" class="btn btn-danger" /> |
+        <a class="btn btn-info" onclick="$('.ui-dialog-titlebar-close').click()"> Retour </a>
+    </form>
+
+</div>
+
+<script>
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'delete',
+            url: '/QuizzMatieres/DeleteConfirmed/' + @Model.IdentityKey,
+            data: $('form').serialize(),
+            success: function (data) {
+                matiereDeleted(data);
+            }
+        });
+
+    });
+</script>

@@ -1,0 +1,135 @@
+﻿@model IEnumerable<Aide.Api.Models.QuizzMatiere>
+
+
+<style>
+    .ui-dialog {
+        width: 50vw !important;
+    }
+</style>
+
+<h1>Liste des matières</h1>
+
+<p>
+    <a asp-action="AjaxCreate" data-ajax="true" data-ajax-method="GET" data-ajax-mode="replace" data-ajax-success="$('#dialog-form').dialog('open');"
+       data-ajax-update="#dialog-form" class="btn btn-success"> Ajouter une matière </a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titre)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="listBody">
+        @foreach (var item in Model)
+        {
+        <tr id="@item.IdentityKey">
+            <td>
+                @Html.DisplayFor(modelItem => item.Titre)
+            </td>
+            <td class="text-right">
+                <a onclick="deleteMatiere(@item.IdentityKey)" class="btn btn-danger text-white">
+                    <i class="glyphicon glyphicon-trash"></i> Supprimer
+                </a>
+                <a onclick="editMatiere(@item.IdentityKey)" class="btn btn-warning text-white">
+                    <i class="glyphicon glyphicon-edit"></i> Modifier
+                </a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<div id="dialog-form" title="Formulaire" class="shadow"></div>
+
+<div id="dialog" title="Action" class="container-fluid shadow"></div>
+
+<script>
+    $(document).ready(function () {
+        $("#dialog").dialog({
+            autoOpen: false,
+            show: {
+                effect: "blind",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 500
+            }
+        });
+        formDialog = $("#dialog-form").dialog({
+            autoOpen: false,
+            show: {
+                effect: "blind",
+                duration: 500
+            },
+            hide: {
+                effect: "explode",
+                duration: 500
+            }
+        });
+    });
+    function MatiereCreated(data) {
+            console.log(data);
+            $.ajax({
+                url: "/QuizzMatieres/Row/" + data,
+                success: function (result) {
+                    console.log(result);
+                    $("#listBody").append(result);
+                },
+                error: function (xhr, status) {
+                    alert("erreur:" + status);
+                }
+            });
+        };
+    function deleteMatiere(data) {
+            $.ajax({
+                type: "GET", url: "/QuizzMatieres/Delete/" + data,
+                datatype: "text/plain",
+                contentType: "application/html; charset=utf-8",
+                success: function (result) {
+                    $("#dialog").html(result);
+                    $("#dialog").dialog("open");
+                },
+                error: function (xhr, status) {
+                    alert("erreur:" + status);
+                }
+            });
+        };
+    function editMatiere(data) {
+            console.log(data);
+            $.ajax({
+                url: "/QuizzMatieres/Edit/" + data,
+                datatype: "text/plain",
+                contentType: "application/html; charset=utf-8",
+                success: function (result) {
+                    $("#dialog").html(result);
+                    $("#dialog").dialog("open");
+                },
+                error: function (xhr, status) {
+                    alert("erreur:" + status);
+                }
+            });
+        };
+    function matiereDeleted(data) {
+            $(".ui-dialog-titlebar-close").click();
+            console.log(data);
+                // remove de laliste la matière
+            $('#listBody tr[id=\'' + data + '\']').remove();
+        };
+    function matiereEdited(data) {
+            $.ajax({
+                url: "/QuizzMatieres/Row/" + data,
+                success: function (result) {                
+                    console.log(result);
+                    $("#listBody > #" + data).replaceWith(result);
+                },
+                error: function (xhr, status) {
+                    alert("erreur:" + status);
+                }
+            });
+        };
+</script>

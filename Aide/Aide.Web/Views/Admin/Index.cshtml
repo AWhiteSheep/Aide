@@ -1,0 +1,23 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Admin</h1>
+<div class="row p-3">
+    <div class="list-group col-sm-4">
+        <a asp-controller="QuizzMatieres" asp-action="AjaxList" data-ajax="true"
+           data-ajax-method="get" data-ajax-mode="replace" data-ajax-update="#page">
+            Matière
+        </a>
+        <a asp-controller="Quizzs" asp-action="Index">
+            Quizz
+        </a>
+        <a asp-controller="QuestionTypes" asp-action="Index">
+            Les différents types de questions
+        </a>
+    </div>
+
+    <div class="col-sm-8" id="page"></div>
+</div>

@@ -1,0 +1,41 @@
+﻿@model Aide.Api.Models.QuizzMatiere
+
+<p>Édition</p>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form>
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdentityKey" />
+            <div class="form-group">
+                <label asp-for="Titre" class="control-label"></label>
+                <input asp-for="Titre" class="form-control" />
+                <span asp-validation-for="Titre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Enregistrer" class="btn btn-primary" />
+                <a class="btn btn-outline-secondary" onclick="$('.ui-dialog-titlebar-close').click()"> Annuler </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'put',
+            url: '/QuizzMatieres/Edit/'+ @Model.IdentityKey,
+            data: $('form').serialize(),
+            success: function () {
+                $(".ui-dialog-titlebar-close").click();
+                matiereEdited(@Model.IdentityKey);
+            }
+        });
+    });
+</script>

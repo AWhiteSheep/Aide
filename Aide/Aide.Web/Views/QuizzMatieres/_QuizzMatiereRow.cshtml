@@ -1,0 +1,15 @@
+﻿@model Aide.Api.Models.QuizzMatiere
+
+<tr id="@Model.IdentityKey">
+    <td>
+        @Html.DisplayFor(Model => Model.Titre)
+    </td>
+    <td class="text-right">
+        <a onclick="deleteMatiere(@Model.IdentityKey)" class="btn btn-danger text-white">
+            <i class="glyphicon glyphicon-trash"></i> Supprimer
+        </a>
+        <a onclick="editMatiere(@Model.IdentityKey)" class="btn btn-warning text-white">
+            <i class="glyphicon glyphicon-edit"></i> Modifier
+        </a>
+    </td>
+</tr>
