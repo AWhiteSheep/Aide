@@ -29,15 +29,10 @@ namespace Aide.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => false;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
-            });
             services.AddDbContext<AideCoreContext>(
                 option => option.UseSqlServer(Configuration.GetConnectionString("AideDB")
             ));
-            services.AddIdentity<AideWebUser, IdentityRole>()
+            services.AddDefaultIdentity<AideWebUser>()
                 // services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<AideCoreContext>()
                 .AddDefaultTokenProviders();
@@ -45,12 +40,6 @@ namespace Aide.Web
             services.AddControllersWithViews();
             services.AddRazorPages();
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.LoginPath = $"/Identity/Account/Login";
-                options.LogoutPath = $"/Identity/Account/Logout";
-                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
-            });
             services.AddSingleton<IEmailSender, EmailSender>();
         }
 
@@ -69,11 +58,12 @@ namespace Aide.Web
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseAuthorization();
-            // identity authentication
-            app.UseAuthentication();
 
             app.UseRouting();
+
+            // identity authentication après routing
+            app.UseAuthentication();
+            app.UseAuthorization();
 
 
             app.UseEndpoints(endpoints =>

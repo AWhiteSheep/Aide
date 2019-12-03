@@ -1,9 +1,7 @@
 ﻿CREATE TABLE [dbo].[Utilisateur]
 (
-	[IdentityKey] nvarchar(100) primary key,
+	[IdentityKey] nvarchar(100) primary key default NEWID(),
 	[Id] nvarchar(60) unique not null,
-	[IdentityKeyRole] int foreign key references [Role] (ID) on delete set null,
-	[Email] nvarchar(100) unique,
-	[Nom] nvarchar(max),
-	[Prenom] nvarchar(max)
+	[Nom] nvarchar(max) not null,
+	[Prenom] nvarchar(max) not null
 )

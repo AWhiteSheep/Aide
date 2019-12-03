@@ -14,8 +14,6 @@ namespace Aide.Api.Models
 
         [Key]
         public int IdentityKey { get; set; }
-        [Required]
-        [Display(Name = "Nom du type de question")]
         public string Nom { get; set; }
 
         [InverseProperty("IdentityKeyQuestionTypeNavigation")]

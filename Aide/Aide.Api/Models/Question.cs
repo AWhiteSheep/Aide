@@ -10,6 +10,7 @@ namespace Aide.Api.Models
         public Question()
         {
             QuestionReponse = new HashSet<QuestionReponse>();
+            UtilisateurQuestionReponse = new HashSet<UtilisateurQuestionReponse>();
         }
 
         [Key]
@@ -29,5 +30,7 @@ namespace Aide.Api.Models
         public virtual Quizz IdentityKeyQuizzNavigation { get; set; }
         [InverseProperty("IdentityKeyQuestionNavigation")]
         public virtual ICollection<QuestionReponse> QuestionReponse { get; set; }
+        [InverseProperty("IdentityKeyQuestionReponseNavigation")]
+        public virtual ICollection<UtilisateurQuestionReponse> UtilisateurQuestionReponse { get; set; }
     }
 }

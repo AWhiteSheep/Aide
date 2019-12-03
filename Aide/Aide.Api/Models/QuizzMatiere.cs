@@ -13,7 +13,6 @@ namespace Aide.Api.Models
         }
 
         [Key]
-        
         public int IdentityKey { get; set; }
         [Required]
         public string Titre { get; set; }

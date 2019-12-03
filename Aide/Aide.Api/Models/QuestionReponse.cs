@@ -15,6 +15,7 @@ namespace Aide.Api.Models
         public bool? Bon { get; set; }
         [Column(TypeName = "text")]
         public string Reponse { get; set; }
+        public string Explication { get; set; }
 
         [ForeignKey(nameof(IdentityKeyQuestion))]
         [InverseProperty(nameof(Question.QuestionReponse))]

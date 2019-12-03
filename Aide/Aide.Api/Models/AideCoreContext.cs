@@ -27,13 +27,14 @@ namespace Aide.Api.Models
         public virtual DbSet<QuizzQuestionTypeView> QuizzQuestionTypeView { get; set; }
         public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<AideWebUser> Utilisateur { get; set; }
+        public virtual DbSet<UtilisateurQuestionReponse> UtilisateurQuestionReponse { get; set; }
         public virtual DbSet<UtilisateurRoleView> UtilisateurRoleView { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB; initial catalog=Aide.Core;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Aide.Core;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
             }
         }
 
@@ -43,7 +44,7 @@ namespace Aide.Api.Models
             modelBuilder.Entity<Question>(entity =>
             {
                 entity.HasKey(e => e.IdentityKey)
-                    .HasName("PK__Question__796424B8F25F8EE8");
+                    .HasName("PK__Question__796424B8AECC79B9");
 
                 entity.Property(e => e.Points).HasDefaultValueSql("((1))");
 
@@ -51,31 +52,31 @@ namespace Aide.Api.Models
                     .WithMany(p => p.Question)
                     .HasForeignKey(d => d.IdentityKeyQuestionType)
                     .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK__Question__Identi__35BCFE0A");
+                    .HasConstraintName("FK__Question__Identi__3A81B327");
 
                 entity.HasOne(d => d.IdentityKeyQuizzNavigation)
                     .WithMany(p => p.Question)
                     .HasForeignKey(d => d.IdentityKeyQuizz)
-                    .HasConstraintName("FK__Question__Identi__34C8D9D1");
+                    .HasConstraintName("FK__Question__Identi__398D8EEE");
             });
 
             modelBuilder.Entity<QuestionReponse>(entity =>
             {
                 entity.HasKey(e => e.IdentityKey)
-                    .HasName("PK__Question__796424B8006F3F40");
+                    .HasName("PK__Question__796424B884677EF8");
 
                 entity.Property(e => e.Bon).HasDefaultValueSql("((1))");
 
                 entity.HasOne(d => d.IdentityKeyQuestionNavigation)
                     .WithMany(p => p.QuestionReponse)
                     .HasForeignKey(d => d.IdentityKeyQuestion)
-                    .HasConstraintName("FK__QuestionR__Ident__36B12243");
+                    .HasConstraintName("FK__QuestionR__Ident__3B75D760");
             });
 
             modelBuilder.Entity<QuestionType>(entity =>
             {
                 entity.HasKey(e => e.IdentityKey)
-                    .HasName("PK__Question__796424B8C37FA56A");
+                    .HasName("PK__Question__796424B81BFB3504");
             });
 
             modelBuilder.Entity<QuestionTypeView>(entity =>
@@ -88,7 +89,7 @@ namespace Aide.Api.Models
             modelBuilder.Entity<Quizz>(entity =>
             {
                 entity.HasKey(e => e.IdentityKey)
-                    .HasName("PK__Quizz__796424B8E025ADAE");
+                    .HasName("PK__Quizz__796424B8DCB92EBE");
 
                 entity.Property(e => e.Titre).HasDefaultValueSql("('sans nom')");
 
@@ -96,13 +97,13 @@ namespace Aide.Api.Models
                     .WithMany(p => p.Quizz)
                     .HasForeignKey(d => d.IdentityKeyMatiere)
                     .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK__Quizz__IdentityK__37A5467C");
+                    .HasConstraintName("FK__Quizz__IdentityK__3C69FB99");
             });
 
             modelBuilder.Entity<QuizzMatiere>(entity =>
             {
                 entity.HasKey(e => e.IdentityKey)
-                    .HasName("PK__QuizzMat__796424B86BB8BCB2");
+                    .HasName("PK__QuizzMat__796424B8F5DE1F98");
 
                 entity.Property(e => e.Titre).HasDefaultValueSql("('sans nom')");
             });
@@ -128,29 +129,58 @@ namespace Aide.Api.Models
                 entity.ToView("QuizzQuestionTypeView");
             });
 
-
             modelBuilder.Entity<Role>(entity =>
             {
+                entity.HasKey(e => e.IdentityKey)
+                    .HasName("PK__Role__796424B82D978144");
+
+                entity.Property(e => e.IdentityKey).ValueGeneratedNever();
             });
 
             modelBuilder.Entity<AideWebUser>(entity =>
             {
                 entity.HasKey(e => e.IdentityKey)
-                    .HasName("PK__tmp_ms_x__796424B8C71C3F33");
+                    .HasName("PK__Utilisat__796424B89864DB19");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__tmp_ms_x__A9D10534211271F1")
+                    .HasName("UQ__Utilisat__A9D10534CB6F74B4")
                     .IsUnique();
 
                 entity.HasIndex(e => e.Id)
-                    .HasName("UQ__tmp_ms_x__3214EC067DAE0516")
+                    .HasName("UQ__Utilisat__3214EC06CACB1DD4")
                     .IsUnique();
+
+                entity.Property(e => e.IdentityKey).HasDefaultValueSql("(newid())");
 
                 entity.HasOne(d => d.IdentityKeyRoleNavigation)
                     .WithMany(p => p.Utilisateur)
                     .HasForeignKey(d => d.IdentityKeyRole)
                     .OnDelete(DeleteBehavior.SetNull)
-                    .HasConstraintName("FK__Utilisate__Ident__4222D4EF");
+                    .HasConstraintName("FK__Utilisate__Ident__3D5E1FD2");
+            });
+
+            modelBuilder.Entity<UtilisateurQuestionReponse>(entity =>
+            {
+                entity.HasKey(e => e.IdentityKey)
+                    .HasName("PK__Utilisat__796424B8CD71FE65");
+
+                entity.HasIndex(e => new { e.IdentityKeyUser, e.IdentityKeyQuestionReponse, e.Essaie })
+                    .HasName("essaie_unique")
+                    .IsUnique();
+
+                entity.Property(e => e.IdentityKey).HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Essaie).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.IdentityKeyQuestionReponseNavigation)
+                    .WithMany(p => p.UtilisateurQuestionReponse)
+                    .HasForeignKey(d => d.IdentityKeyQuestionReponse)
+                    .HasConstraintName("FK__Utilisate__Ident__3F466844");
+
+                entity.HasOne(d => d.IdentityKeyUserNavigation)
+                    .WithMany(p => p.UtilisateurQuestionReponse)
+                    .HasForeignKey(d => d.IdentityKeyUser)
+                    .HasConstraintName("FK__Utilisate__Ident__3E52440B");
             });
 
             modelBuilder.Entity<UtilisateurRoleView>(entity =>

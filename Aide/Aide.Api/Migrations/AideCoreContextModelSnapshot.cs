@@ -19,155 +19,12 @@ namespace Aide.Api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Aide.Api.Models.Question", b =>
-                {
-                    b.Property<int>("IdentityKey")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("IdentityKeyQuestionType")
-                        .HasColumnType("int");
-
-                    b.Property<int>("IdentityKeyQuizz")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Numero")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Points")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValueSql("((1))");
-
-                    b.Property<string>("Question1")
-                        .HasColumnName("Question")
-                        .HasColumnType("text");
-
-                    b.HasKey("IdentityKey")
-                        .HasName("PK__Question__796424B8F25F8EE8");
-
-                    b.HasIndex("IdentityKeyQuestionType");
-
-                    b.HasIndex("IdentityKeyQuizz");
-
-                    b.ToTable("Question");
-                });
-
-            modelBuilder.Entity("Aide.Api.Models.QuestionReponse", b =>
-                {
-                    b.Property<int>("IdentityKey")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<bool?>("Bon")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValueSql("((1))");
-
-                    b.Property<int>("IdentityKeyQuestion")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("No")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Reponse")
-                        .HasColumnType("text");
-
-                    b.HasKey("IdentityKey")
-                        .HasName("PK__Question__796424B8006F3F40");
-
-                    b.HasIndex("IdentityKeyQuestion");
-
-                    b.ToTable("QuestionReponse");
-                });
-
-            modelBuilder.Entity("Aide.Api.Models.QuestionType", b =>
-                {
-                    b.Property<int>("IdentityKey")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Nom")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("IdentityKey")
-                        .HasName("PK__Question__796424B8C37FA56A");
-
-                    b.ToTable("QuestionType");
-                });
-
-            modelBuilder.Entity("Aide.Api.Models.Quizz", b =>
-                {
-                    b.Property<int>("IdentityKey")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("IdentityKeyMatiere")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Titre")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(100)")
-                        .HasDefaultValueSql("('sans nom')")
-                        .HasMaxLength(100);
-
-                    b.HasKey("IdentityKey")
-                        .HasName("PK__Quizz__796424B8E025ADAE");
-
-                    b.HasIndex("IdentityKeyMatiere");
-
-                    b.ToTable("Quizz");
-                });
-
-            modelBuilder.Entity("Aide.Api.Models.QuizzMatiere", b =>
-                {
-                    b.Property<int>("IdentityKey")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Titre")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)")
-                        .HasDefaultValueSql("('sans nom')");
-
-                    b.HasKey("IdentityKey")
-                        .HasName("PK__QuizzMat__796424B86BB8BCB2");
-
-                    b.ToTable("QuizzMatiere");
-                });
-
-            modelBuilder.Entity("Aide.Api.Models.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("ID")
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Tag")
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Role");
-                });
-
-            modelBuilder.Entity("Aide.Api.Models.Utilisateur", b =>
+            modelBuilder.Entity("Aide.Api.Models.AideWebUser", b =>
                 {
                     b.Property<string>("IdentityKey")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("(newid())")
                         .HasMaxLength(100);
 
                     b.Property<int>("AccessFailedCount")
@@ -186,7 +43,8 @@ namespace Aide.Api.Migrations
 
                     b.Property<string>("Id")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(60)")
+                        .HasMaxLength(60);
 
                     b.Property<int?>("IdentityKeyRole")
                         .HasColumnType("int");
@@ -231,18 +89,18 @@ namespace Aide.Api.Migrations
                         .HasMaxLength(256);
 
                     b.HasKey("IdentityKey")
-                        .HasName("PK__tmp_ms_x__796424B8C71C3F33");
+                        .HasName("PK__Utilisat__796424B89864DB19");
 
                     b.HasAlternateKey("Id");
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasName("UQ__tmp_ms_x__A9D10534211271F1")
+                        .HasName("UQ__Utilisat__A9D10534CB6F74B4")
                         .HasFilter("[Email] IS NOT NULL");
 
                     b.HasIndex("Id")
                         .IsUnique()
-                        .HasName("UQ__tmp_ms_x__3214EC067DAE0516");
+                        .HasName("UQ__Utilisat__3214EC06CACB1DD4");
 
                     b.HasIndex("IdentityKeyRole");
 
@@ -255,6 +113,188 @@ namespace Aide.Api.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("Aide.Api.Models.Question", b =>
+                {
+                    b.Property<int>("IdentityKey")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("IdentityKeyQuestionType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IdentityKeyQuizz")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Numero")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Points")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValueSql("((1))");
+
+                    b.Property<string>("Question1")
+                        .HasColumnName("Question")
+                        .HasColumnType("text");
+
+                    b.HasKey("IdentityKey")
+                        .HasName("PK__Question__796424B8AECC79B9");
+
+                    b.HasIndex("IdentityKeyQuestionType");
+
+                    b.HasIndex("IdentityKeyQuizz");
+
+                    b.ToTable("Question");
+                });
+
+            modelBuilder.Entity("Aide.Api.Models.QuestionReponse", b =>
+                {
+                    b.Property<int>("IdentityKey")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool?>("Bon")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValueSql("((1))");
+
+                    b.Property<string>("Explication")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdentityKeyQuestion")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("No")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Reponse")
+                        .HasColumnType("text");
+
+                    b.HasKey("IdentityKey")
+                        .HasName("PK__Question__796424B884677EF8");
+
+                    b.HasIndex("IdentityKeyQuestion");
+
+                    b.ToTable("QuestionReponse");
+                });
+
+            modelBuilder.Entity("Aide.Api.Models.QuestionType", b =>
+                {
+                    b.Property<int>("IdentityKey")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Nom")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IdentityKey")
+                        .HasName("PK__Question__796424B81BFB3504");
+
+                    b.ToTable("QuestionType");
+                });
+
+            modelBuilder.Entity("Aide.Api.Models.Quizz", b =>
+                {
+                    b.Property<int>("IdentityKey")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("IdentityKeyMatiere")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("PointTotal")
+                        .HasColumnType("decimal(16, 2)");
+
+                    b.Property<string>("Titre")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("('sans nom')")
+                        .HasMaxLength(100);
+
+                    b.HasKey("IdentityKey")
+                        .HasName("PK__Quizz__796424B8DCB92EBE");
+
+                    b.HasIndex("IdentityKeyMatiere");
+
+                    b.ToTable("Quizz");
+                });
+
+            modelBuilder.Entity("Aide.Api.Models.QuizzMatiere", b =>
+                {
+                    b.Property<int>("IdentityKey")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Titre")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValueSql("('sans nom')");
+
+                    b.HasKey("IdentityKey")
+                        .HasName("PK__QuizzMat__796424B8F5DE1F98");
+
+                    b.ToTable("QuizzMatiere");
+                });
+
+            modelBuilder.Entity("Aide.Api.Models.Role", b =>
+                {
+                    b.Property<int>("IdentityKey")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Tag")
+                        .HasColumnType("nvarchar(20)")
+                        .HasMaxLength(20);
+
+                    b.HasKey("IdentityKey")
+                        .HasName("PK__Role__796424B82D978144");
+
+                    b.ToTable("Role");
+                });
+
+            modelBuilder.Entity("Aide.Api.Models.UtilisateurQuestionReponse", b =>
+                {
+                    b.Property<string>("IdentityKey")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(100)")
+                        .HasDefaultValueSql("(newid())")
+                        .HasMaxLength(100);
+
+                    b.Property<int>("Essaie")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("IdentityKeyQuestionReponse")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdentityKeyUser")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
+
+                    b.HasKey("IdentityKey")
+                        .HasName("PK__Utilisat__796424B8CD71FE65");
+
+                    b.HasIndex("IdentityKeyQuestionReponse");
+
+                    b.HasIndex("IdentityKeyUser", "IdentityKeyQuestionReponse", "Essaie")
+                        .IsUnique()
+                        .HasName("essaie_unique");
+
+                    b.ToTable("UtilisateurQuestionReponse");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -335,12 +375,10 @@ namespace Aide.Api.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -377,12 +415,10 @@ namespace Aide.Api.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(128)")
-                        .HasMaxLength(128);
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -392,18 +428,27 @@ namespace Aide.Api.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Aide.Api.Models.AideWebUser", b =>
+                {
+                    b.HasOne("Aide.Api.Models.Role", "IdentityKeyRoleNavigation")
+                        .WithMany("Utilisateur")
+                        .HasForeignKey("IdentityKeyRole")
+                        .HasConstraintName("FK__Utilisate__Ident__3D5E1FD2")
+                        .OnDelete(DeleteBehavior.SetNull);
+                });
+
             modelBuilder.Entity("Aide.Api.Models.Question", b =>
                 {
                     b.HasOne("Aide.Api.Models.QuestionType", "IdentityKeyQuestionTypeNavigation")
                         .WithMany("Question")
                         .HasForeignKey("IdentityKeyQuestionType")
-                        .HasConstraintName("FK__Question__Identi__35BCFE0A")
+                        .HasConstraintName("FK__Question__Identi__3A81B327")
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Aide.Api.Models.Quizz", "IdentityKeyQuizzNavigation")
                         .WithMany("Question")
                         .HasForeignKey("IdentityKeyQuizz")
-                        .HasConstraintName("FK__Question__Identi__34C8D9D1")
+                        .HasConstraintName("FK__Question__Identi__398D8EEE")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -413,7 +458,7 @@ namespace Aide.Api.Migrations
                     b.HasOne("Aide.Api.Models.Question", "IdentityKeyQuestionNavigation")
                         .WithMany("QuestionReponse")
                         .HasForeignKey("IdentityKeyQuestion")
-                        .HasConstraintName("FK__QuestionR__Ident__36B12243")
+                        .HasConstraintName("FK__QuestionR__Ident__3B75D760")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -423,17 +468,25 @@ namespace Aide.Api.Migrations
                     b.HasOne("Aide.Api.Models.QuizzMatiere", "IdentityKeyMatiereNavigation")
                         .WithMany("Quizz")
                         .HasForeignKey("IdentityKeyMatiere")
-                        .HasConstraintName("FK__Quizz__IdentityK__37A5467C")
+                        .HasConstraintName("FK__Quizz__IdentityK__3C69FB99")
                         .OnDelete(DeleteBehavior.SetNull);
                 });
 
-            modelBuilder.Entity("Aide.Api.Models.Utilisateur", b =>
+            modelBuilder.Entity("Aide.Api.Models.UtilisateurQuestionReponse", b =>
                 {
-                    b.HasOne("Aide.Api.Models.Role", "IdentityKeyRoleNavigation")
-                        .WithMany("Utilisateur")
-                        .HasForeignKey("IdentityKeyRole")
-                        .HasConstraintName("FK__Utilisate__Ident__4222D4EF")
-                        .OnDelete(DeleteBehavior.SetNull);
+                    b.HasOne("Aide.Api.Models.Question", "IdentityKeyQuestionReponseNavigation")
+                        .WithMany("UtilisateurQuestionReponse")
+                        .HasForeignKey("IdentityKeyQuestionReponse")
+                        .HasConstraintName("FK__Utilisate__Ident__3F466844")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Aide.Api.Models.AideWebUser", "IdentityKeyUserNavigation")
+                        .WithMany("UtilisateurQuestionReponse")
+                        .HasForeignKey("IdentityKeyUser")
+                        .HasConstraintName("FK__Utilisate__Ident__3E52440B")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -447,7 +500,7 @@ namespace Aide.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Aide.Api.Models.Utilisateur", null)
+                    b.HasOne("Aide.Api.Models.AideWebUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -456,7 +509,7 @@ namespace Aide.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Aide.Api.Models.Utilisateur", null)
+                    b.HasOne("Aide.Api.Models.AideWebUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -471,7 +524,7 @@ namespace Aide.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Aide.Api.Models.Utilisateur", null)
+                    b.HasOne("Aide.Api.Models.AideWebUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -480,7 +533,7 @@ namespace Aide.Api.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Aide.Api.Models.Utilisateur", null)
+                    b.HasOne("Aide.Api.Models.AideWebUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

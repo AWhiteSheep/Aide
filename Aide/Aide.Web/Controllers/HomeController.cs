@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Aide.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Aide.Web.Controllers
 {
@@ -23,6 +24,7 @@ namespace Aide.Web.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Privacy()
         {
             return View();

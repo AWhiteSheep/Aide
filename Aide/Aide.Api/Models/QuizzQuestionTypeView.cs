@@ -18,6 +18,8 @@ namespace Aide.Api.Models
         public string Titre { get; set; }
         [Column(TypeName = "text")]
         public string Description { get; set; }
+        [Column(TypeName = "decimal(16, 2)")]
+        public decimal? PointTotal { get; set; }
         [Column("Questionnaire dbo.ID")]
         public int? QuestionnaireDboId { get; set; }
         [Column("Question dbo.ID")]
